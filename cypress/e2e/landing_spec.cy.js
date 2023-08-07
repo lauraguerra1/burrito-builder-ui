@@ -1,13 +1,8 @@
 describe("landing page spec", () => {
-  beforeEach(() => {
-    cy.intercept('GET', 'http://localhost:3001/api/v1/orders', {
-      statusCode: 200,
-      fixture: 'burritos'
-    }).as('getOrders')
-    .visit('http://localhost:3000')
-  })
   it("should have two orders and a form", () => {
-    cy.wait('@getOrders').then((interception) => {
+    cy.stubSingleFetch('GET', 200, 'burritos', 'getOrders')
+      .visit('http://localhost:3000')
+      .wait('@getOrders').then((interception) => {
       cy.get('h1').contains('Burrito Builder')
         .get('form').children().should('have.length', 15)
         .get('form > p').contains('Order: Nothing selected')

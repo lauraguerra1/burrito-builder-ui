@@ -28,7 +28,7 @@ describe('error handling spec', () => {
 
   it('should display a 400 level error when posting orders', () => {
     cy.stubSingleFetch('GET', 200, 'burritos', 'getOrders')
-    cy.stubSingleFetch('POST', 404, 'burritos', 'postOrder')
+    cy.stubSingleFetch('POST', 404, 'newBurrito', 'postOrder')
     cy.visit('http://localhost:3000')
       .wait('@getOrders').then((interception) => {
       cy.get('input').type('Laura')
@@ -42,7 +42,7 @@ describe('error handling spec', () => {
 
   it('should display a 500 level error when posting orders', () => {
     cy.stubSingleFetch('GET', 200, 'burritos', 'getOrders')
-    cy.stubSingleFetch('POST', 500, 'burritos', 'postOrder')
+    cy.stubSingleFetch('POST', 500, 'newBurrito', 'postOrder')
     cy.visit('http://localhost:3000')
       .wait('@getOrders').then((interception) => {
       cy.get('input').type('Laura')
