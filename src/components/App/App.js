@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getOrders } from "../../apiCalls";
+import { getOrders, placeOrder } from "../../apiCalls";
 import Orders from "../../components/Orders/Orders";
 import OrderForm from "../../components/OrderForm/OrderForm";
 
@@ -22,8 +22,17 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const callAPI = async(order) => {
+      try {
+        const newData = await placeOrder(order)
+        setOrders(prevOrders => [...prevOrders, newData])
+      } catch (error) {
+        setError(error)
+      }
+    }
+
     if(newOrder) {
-      console.log('order', newOrder)
+      callAPI(newOrder)
     }
   }, [newOrder])
 
@@ -33,6 +42,7 @@ function App() {
     <main className="App">
       <header>
         <h1>Burrito Builder</h1>
+        {error && <h2 style={{color: 'red'}}>{error.message}</h2>}
         <OrderForm updateNewOrder={updateNewOrder}/>
       </header>
 
