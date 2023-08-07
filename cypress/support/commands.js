@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('checkButtons', (buttons) => {
+  buttons.forEach(button => {
+    cy.get('button').contains(button).should('be.visible')
+  })
+})
+
+Cypress.Commands.add('stubSingleFetch', (method, status, fixture, alias) => {
+  cy.intercept(method, 'http://localhost:3001/api/v1/orders', {
+    statusCode: status, 
+    fixture: fixture
+  }).as(alias)
+})

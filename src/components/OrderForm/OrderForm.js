@@ -68,7 +68,7 @@ function OrderForm({updateNewOrder}) {
       <p>Order: {ingredients.join(", ") || "Nothing selected"}</p>
 
       <button>Submit Order</button>
-      {submissionError.error && <p>{submissionError.message}</p>}
+      {submissionError.error && <p className='submission-error'>{submissionError.message}</p>}
     </form>
   );
 }
