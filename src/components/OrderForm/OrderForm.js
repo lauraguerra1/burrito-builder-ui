@@ -3,19 +3,20 @@ import { useState } from "react";
 function OrderForm({updateNewOrder}) {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const [submissionError, setSubmissionError] = useState('')
+  const [submissionError, setSubmissionError] = useState({error: false, message: ''})
   
   const submitOrder = (e) => {
-    if(!name || !ingredients.length) {
-      setSubmissionError('Please select at least one ingredient and add an order name!')
+    e.preventDefault();
+    if(!ingredients.length) {
+      setSubmissionError({error: true, message:'Please select at least one ingredient!'})
     } else {
-      setSubmissionError('')
+      setSubmissionError({error: false, message: ''})
       handleSubmit(e)
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit() {
+    updateNewOrder({name, ingredients})
     clearInputs();
   }
 
@@ -52,20 +53,22 @@ function OrderForm({updateNewOrder}) {
   });
 
   return (
-    <form>
+    <form onSubmit={(e) => submitOrder(e)}>
       <input
         type="text"
         placeholder="Name"
         name="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        required
       />
 
       {ingredientButtons}
 
       <p>Order: {ingredients.join(", ") || "Nothing selected"}</p>
 
-      <button onClick={(e) => handleSubmit(e)}>Submit Order</button>
+      <button>Submit Order</button>
+      {submissionError.error && <p>{submissionError.message}</p>}
     </form>
   );
 }
