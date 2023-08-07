@@ -19,6 +19,8 @@ function App() {
       }
     }
     apiCall()
+
+    return () => setError('')
   }, []);
 
   useEffect(() => {
@@ -33,6 +35,11 @@ function App() {
 
     if(newOrder) {
       callAPI(newOrder)
+    }
+
+    return () => {
+      setError('')
+      setNewOrder('')
     }
   }, [newOrder])
 
