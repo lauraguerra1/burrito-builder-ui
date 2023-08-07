@@ -6,6 +6,7 @@ import OrderForm from "../../components/OrderForm/OrderForm";
 
 function App() {
   const [orders, setOrders] = useState([])
+  const [orderReady, setOrderReady] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -19,6 +20,12 @@ function App() {
     }
     apiCall()
   }, []);
+
+  useEffect(() => {
+    if(orderReady) {
+      console.log('order', orderReady)
+    }
+  }, [orderReady])
 
   return (
     <main className="App">

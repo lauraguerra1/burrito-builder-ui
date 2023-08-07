@@ -1,8 +1,18 @@
 import { useState } from "react";
 
-function OrderForm(props) {
+function OrderForm({updateNewOrder}) {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
+  const [submissionError, setSubmissionError] = useState('')
+  
+  const submitOrder = (e) => {
+    if(!name || !ingredients.length) {
+      setSubmissionError('Please select at least one ingredient and add an order name!')
+    } else {
+      setSubmissionError('')
+      handleSubmit(e)
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
