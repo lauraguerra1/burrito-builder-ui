@@ -31,9 +31,10 @@ function OrderForm(props) {
   const ingredientButtons = possibleIngredients.map((ingredient) => {
     return (
       <button
+        type='button'
         key={ingredient}
         name={ingredient}
-        // onClick={(e) => }
+        onClick={() => setIngredients(prevIngredients => [...prevIngredients, ingredient])}
       >
         {ingredient}
       </button>
@@ -47,7 +48,7 @@ function OrderForm(props) {
         placeholder="Name"
         name="name"
         value={name}
-        // onChange={(e) => }
+        onChange={(e) => setName(e.target.value)}
       />
 
       {ingredientButtons}
