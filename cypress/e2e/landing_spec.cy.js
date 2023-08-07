@@ -37,14 +37,3 @@ describe("landing page spec", () => {
     })
   });
 });
-
-// cy.intercept('POST', 'http://localhost:3001/api/v1/orders', {
-//       statusCode: 201, 
-//       fixture: 'newBurrito'
-//     }).as('postOrder')
-// .get('input').type('laura')
-// .get('button').first().click()
-// .get('button').last().click()
-// .wait('@postOrder').then((interception) => {
-
-// })
