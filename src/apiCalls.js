@@ -4,8 +4,23 @@ const parseError = (response) => {
   }
   return response.json()
 }
-export const getOrders = async () => {
+
+const getOrders = async () => {
   const response = await fetch("http://localhost:3001/api/v1/orders")
   const data = parseError(response)
   return data
 }
+
+const placeOrder = async(order) => {
+  const response = await fetch("http://localhost:3001/api/v1/orders", {
+    method: 'POST', 
+    body: JSON.stringify(order),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+  const data = parseError(response)
+  return data
+}
+
+export {getOrders, placeOrder}

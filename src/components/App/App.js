@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getOrders } from "../../apiCalls";
+import { getOrders, placeOrder } from "../../apiCalls";
 import Orders from "../../components/Orders/Orders";
 import OrderForm from "../../components/OrderForm/OrderForm";
 
 function App() {
   const [orders, setOrders] = useState([])
+  const [newOrder, setNewOrder] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -18,13 +19,38 @@ function App() {
       }
     }
     apiCall()
+
+    return () => setError('')
   }, []);
+
+  useEffect(() => {
+    const callAPI = async(order) => {
+      try {
+        const newData = await placeOrder(order)
+        setOrders(prevOrders => [...prevOrders, newData])
+      } catch (error) {
+        setError(error)
+      }
+    }
+
+    if(newOrder) {
+      callAPI(newOrder)
+    }
+
+    return () => {
+      setError('')
+      setNewOrder('')
+    }
+  }, [newOrder])
+
+  const updateNewOrder = (order) => setNewOrder(order)
 
   return (
     <main className="App">
       <header>
         <h1>Burrito Builder</h1>
-        <OrderForm />
+        {error && <h2 style={{color: 'red'}}>{error.message}</h2>}
+        <OrderForm updateNewOrder={updateNewOrder}/>
       </header>
 
       <Orders orders={orders} />
